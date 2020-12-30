@@ -38,8 +38,9 @@ var defaultTable string = "192.168.20.1/24"
 func matchAddress(mac net.HardwareAddr) (net.IP, bool) {
 	var ip string
 	queryaddr := fmt.Sprintf("%s", mac)
-	// db field `mac` like 60-ab-67-f8-d5-6c
+	// db field `mac` like 60-AB-67-F8-D5-6C
 	queryaddr = strings.ReplaceAll(queryaddr, ":", "-")
+	queryaddr = strings.ToUpper(queryaddr)
 
 	// DB must exist!
 	//https://stackoverflow.com/questions/12518876/how-to-check-if-a-file-exists-in-go/12518877
