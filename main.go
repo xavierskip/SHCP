@@ -28,6 +28,7 @@ var Config map[string]interface{}
 // var defaultSubnetMask net.IPMask = net.IPv4Mask(255, 255, 255, 0) // Mask 4 byte.
 var defaultRouter net.IP = net.ParseIP("192.168.20.1")[12:] // net.ipv4 has IPv6len
 var defaultSubnetMask net.IPMask = defaultRouter.DefaultMask()
+var defaultDNS net.IP = defaultRouter
 var defaultServerIdentifier net.IP = defaultRouter
 var defaultLeaseTime uint32 = 60
 var defaultDatabase string = "./network.db"
@@ -149,6 +150,9 @@ func main() {
 	defaultRouter = net.ParseIP(Config["route"].(string))[12:]
 	m := net.ParseIP(Config["mask"].(string))[12:]
 	defaultSubnetMask = net.IPv4Mask(m[0], m[1], m[2], m[3])
+	if val, ok := Config["dns"]; ok {
+		defaultDNS = net.ParseIP(val.(string))[12:]
+	}
 	defaultServerIdentifier = defaultRouter
 	defaultLeaseTime = uint32(Config["leasetime"].(float64))
 	if val, ok := Config["database"]; ok {
