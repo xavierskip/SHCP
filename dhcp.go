@@ -227,7 +227,11 @@ func NewOffer(discover *DHCPv4, ip net.IP) *DHCPv4 {
 	p.options[OptionDHCPMessageType] = MessageType(Offer)
 	p.options[OptionSubnetMask] = DHCPOption{OptionSubnetMask, []byte(defaultSubnetMask)}
 	p.options[OptionRouter] = DHCPOption{OptionRouter, []byte(defaultRouter)}
-	p.options[OptionDomainNameServer] = DHCPOption{OptionDomainNameServer, []byte(defaultDNS)}
+	dnslist := []byte{}
+	for _, v := range defaultDNS {
+		dnslist = append(dnslist, v...)
+	}
+	p.options[OptionDomainNameServer] = DHCPOption{OptionDomainNameServer, dnslist}
 	p.options[OptionIPAddressLeaseTime] = DHCPOption{OptionIPAddressLeaseTime, second}
 	p.options[OptionServerIdentifier] = DHCPOption{OptionServerIdentifier, []byte(defaultServerIdentifier)}
 	p.options[OptionHostName] = DHCPOption{OptionHostName, []byte(appname)}
@@ -257,7 +261,11 @@ func NewAck(request *DHCPv4, ip net.IP) *DHCPv4 {
 	p.options[OptionDHCPMessageType] = MessageType(ACK)
 	p.options[OptionSubnetMask] = DHCPOption{OptionSubnetMask, []byte(defaultSubnetMask)}
 	p.options[OptionRouter] = DHCPOption{OptionRouter, []byte(defaultRouter)}
-	p.options[OptionDomainNameServer] = DHCPOption{OptionDomainNameServer, []byte(defaultDNS)}
+	dnslist := []byte{}
+	for _, v := range defaultDNS {
+		dnslist = append(dnslist, v...)
+	}
+	p.options[OptionDomainNameServer] = DHCPOption{OptionDomainNameServer, dnslist}
 	p.options[OptionIPAddressLeaseTime] = DHCPOption{OptionIPAddressLeaseTime, second}
 	p.options[OptionServerIdentifier] = DHCPOption{OptionServerIdentifier, []byte(defaultServerIdentifier)}
 	p.options[OptionHostName] = DHCPOption{OptionHostName, []byte(appname)}
